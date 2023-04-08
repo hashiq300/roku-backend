@@ -35,6 +35,21 @@ const getSingleMovieDetail = async (req, res) => {
   });
 };
 
+const searchMovie = async (req, res) => {
+  const { query } = req.params;
+  var url = `
+  ${BASE_URL}/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=true`;
+  var searchedMovie = await getData(url);
+  res.status(200).json(searchedMovie);
+};
+
+const animatedMovies = async (req, res) => {
+  // &include_adult=false
+  var url = `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=16&include_adult=false`;
+  var animated = await getData(url);
+  res.status(200).json(animated);
+};
+
 const getData = async (url) => {
   const response = await fetch(url);
   const json = await response.json();
@@ -49,4 +64,6 @@ module.exports = {
   getMovies,
   getSingleMovieDetail,
   getMovieGenre,
+  searchMovie,
+  animatedMovies
 };
